@@ -42,6 +42,26 @@ public class SysDeptEntity implements Serializable {
 	 */
 	private String name;
 	/**
+	 * 经度
+	 */
+	private String longitude;
+	/**
+	 * 纬度
+	 */
+	private String latitude;
+	/**
+	 * 门店积分
+	 */
+	private int shopPoint;
+	/**
+	 * 门店地址
+	 */
+	private String address;
+	/**
+	 * 门店电话
+	 */
+	private String telephone;
+	/**
 	 * 上级部门名称
 	 */
 	@TableField(exist=false)
@@ -119,5 +139,45 @@ public class SysDeptEntity implements Serializable {
 
 	public void setList(List<?> list) {
 		this.list = list;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public int getShopPoint() {
+		return shopPoint;
+	}
+
+	public void setShopPoint(int shopPoint) {
+		this.shopPoint = shopPoint;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 }

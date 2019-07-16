@@ -28,22 +28,177 @@ public class XhGoodsEntity implements Serializable {
 	/**
 	 * 商品名称
 	 */
-	private String goodsName;
+	private String name;
 	/**
 	 * 商品标题
 	 */
-	private String goodsTitle;
+	private String title;
 	/**
 	 * 商品介绍
 	 */
-	private String goodsAbstract;
+	private String  detail;
 	/**
 	 * 单价
 	 */
-	private BigDecimal goodsPrice;
+	private BigDecimal price;
 	/**
 	 * 销量
 	 */
-	private String goodsSell;
+	private String sales;
+	/**
+	 * 原价
+	 */
+	private BigDecimal originalPrice;
+	/**
+	 * 商品分类
+	 */
+	private Integer carId;
+	/**
+	 * 商品状态，1上架，2下架
+	 */
+	private Integer status;
+	/**
+	 * 商品排序
+	 */
+	private Integer sort;
+	/**
+	 * 商品缩略图
+	 */
+	private String coverPic;
+	/**
+	 * 商品图
+	 */
+	private String picture;
+	/**
+	 * 添加时间
+	 */
+	private String addTime;
+	/**
+	 * 删除标记
+	 */
+	private String isDelete;
+	/**
+	 * 门店ID
+	 */
+	private Integer shopId;
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public String getSales() {
+		return sales;
+	}
+
+	public void setSales(String sales) {
+		this.sales = sales;
+	}
+
+	public BigDecimal getOriginalPrice() {
+		return originalPrice;
+	}
+
+	public void setOriginalPrice(BigDecimal original_price) {
+		this.originalPrice = original_price;
+	}
+
+	public Integer getCarId() {
+		return carId;
+	}
+
+	public void setCarId(Integer carId) {
+		this.carId = carId;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+
+	public String getCoverPic() {
+		return coverPic;
+	}
+
+	public void setCoverPic(String coverPic) {
+		this.coverPic = coverPic;
+	}
+
+	public String getAddTime() {
+		return addTime;
+	}
+
+	public void setAddTime(String addTime) {
+		this.addTime = addTime;
+	}
+
+	public String getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(String isDelete) {
+		this.isDelete = isDelete;
+	}
+
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
 }

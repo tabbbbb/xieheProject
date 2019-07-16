@@ -40,7 +40,6 @@ public class XhImageController {
     @RequiresPermissions("sys:xhimage:list")
     public R list(@RequestParam Map<String, Object> params) throws Exception{
         PageUtils page = xhImageService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
@@ -61,22 +60,9 @@ public class XhImageController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("sys:xhimage:save")
-    public R save(@RequestParam("file") MultipartFile file,@RequestParam Map<String, Object> params)throws Exception{
-        if(file.isEmpty()){
-            return R.error("文件为空");
-        }
-        XhImageEntity xhImage = new XhImageEntity();
-        xhImage.setDisplayOrder(Integer.parseInt(params.get("displayOrder").toString()));
-        xhImage.setGoodsId(Integer.parseInt(params.get("goodsId").toString()));
-        xhImage.setImgType(Integer.parseInt(params.get("imgType").toString()));
-
-//        //上传文件
-//        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-//        String url = OSSFactory.build().uploadSuffix(file.getBytes(), suffix);
-//        xhImage.setImgUrl(url);
-
+    public R save(@RequestBody XhImageEntity xhImage){
+        ValidatorUtils.validateEntity(xhImage);
         xhImageService.save(xhImage);
-
         return R.ok();
     }
 
@@ -88,7 +74,6 @@ public class XhImageController {
     public R update(@RequestBody XhImageEntity xhImage){
         ValidatorUtils.validateEntity(xhImage);
         xhImageService.updateById(xhImage);
-        
         return R.ok();
     }
 

@@ -4,8 +4,11 @@ $(function () {
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '图片类型', name: 'imgType', index: 'img_type', width: 80 }, 			
-			{ label: '图片地址', name: 'imgUrl', index: 'img_url', width: 80 }, 			
+			{ label: '图片类型', name: 'imgType', index: 'img_type', width: 80 },
+			 // { label: '图片地址', name: 'imgUrl', index: 'img_url', width: 80 },
+            { label: '图片地址', name: 'imgUrl', width: 60, formatter: function(value, options, row){
+                    return   '<img src='+value+' style="height:100px;width=100px" />';
+                }},
 			{ label: '商品名称', name: 'goodsName', index: 'goods_name', width: 80 },
 			{ label: '图片排序', name: 'displayOrder', index: 'display_order', width: 80 }			
         ],
@@ -14,7 +17,8 @@ $(function () {
         rowNum: 10,
 		rowList : [10,30,50],
         rownumbers: true, 
-        rownumWidth: 25, 
+        rownumWidth: 25,
+        rownumHeight:100,
         autowidth:true,
         multiselect: true,
         pager: "#jqGridPager",
@@ -31,7 +35,33 @@ $(function () {
         },
         gridComplete:function(){
         	//隐藏grid底部滚动条
-        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
+        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+        	// var grid = $(this);
+        	// var ids = grid.getDataIDs();
+        	// for(var i=0;i<ids.length;i++){
+            //     grid.setRowData(ids[i],false,{height:80});
+            // }
+
+        }
+    });
+    new AjaxUpload('#upload', {
+        action: baseURL + "sys/oss/upload",
+        name: 'file',
+        autoSubmit:true,
+        responseType:"json",
+        onSubmit:function(file, extension){
+            if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+                alert('只支持jpg、png、gif格式的图片！');
+                return false;
+            }
+        },
+        onComplete : function(file, r){
+            if(r.code == 0){
+                $("#imgUrl").val(r.url);
+                vm.xhImage['imgUrl']=r.url;
+            }else{
+                alert(r.msg);
+            }
         }
     });
 });
@@ -67,43 +97,31 @@ var vm = new Vue({
 		},
 		saveOrUpdate: function (event) {
 		    $('#btnSaveOrUpdate').button('loading').delay(1000).queue(function() {
-		        var img_id = $("#fileSelect").val();
-                var index= img_id.indexOf(".");
-                img_id=img_id.substring(index);
-                if(img_id!=".bmp"&&img_id!=".png"&&img_id!=".gif"&&img_id!=".jpg"&&img_id!=".jpeg"){  //根据后缀，判断是否符合图片格式
-                    alert("不是指定图片格式,重新选择");
-                    $("#fileSelect").val("");
-                    $('#btnSaveOrUpdate').button('reset');
-                    $('#btnSaveOrUpdate').dequeue();
-                    return;
-                }
                 var url = vm.xhImage.id == null ? "sys/xhimage/save" : "sys/xhimage/update";
-                var formData = new FormData();
-                formData.append("file", $('#fileSelect')[0].files[0]);
-                formData.append("imgType",$("#imgType").val());
-                formData.append("goodsId",$("#goodsId").val());
-                formData.append("displayOrder",$("#displayOrder").val());
-                //发送文件数据
                 $.ajax({
+                    type: "POST",
                     url: baseURL + url,
-                    dataType: 'json',
-                    type: 'POST',
-                    cache: false, //上传文件不需要缓存
-                    data: formData,
-                    processData: false, // 告诉jQuery不要去处理发送的数据
-                    contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-                    success: function (data) {
-                        if (data.code == 0) {
-                            //注册成功
-                            alert('注册成功');
+                    contentType: "application/json",
+                    data: JSON.stringify(vm.xhImage),
+                    success: function(r){
+                        if(r.code === 0){
+                            layer.msg("操作成功", {icon: 1});
+                            vm.reload();
+                            $('#btnSaveOrUpdate').button('reset');
+                            $('#btnSaveOrUpdate').dequeue();
                         }else{
-                            alert(data.msg);
+                            layer.alert(r.msg);
+                            $('#btnSaveOrUpdate').button('reset');
+                            $('#btnSaveOrUpdate').dequeue();
                         }
-                    },
-                    error: function (response) {
-                        console.log(response);
                     }
                 });
+                // var formData = new FormData();
+                // formData.append("file", $('#fileSelect')[0].files[0]);
+                // formData.append("imgType",$("#imgType").val());
+                // formData.append("goodsId",$("#goodsId").val());
+                // formData.append("displayOrder",$("#displayOrder").val());
+                // //发送文件数据
                 // $.ajax({
                 //     url: baseURL + url,
                 //     dataType: 'json',
@@ -112,19 +130,20 @@ var vm = new Vue({
                 //     data: formData,
                 //     processData: false, // 告诉jQuery不要去处理发送的数据
                 //     contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-                //     success: function(r){
-                //         if(r.code === 0){
-                //              layer.msg("操作成功", {icon: 1});
-                //              vm.reload();
-                //              $('#btnSaveOrUpdate').button('reset');
-                //              $('#btnSaveOrUpdate').dequeue();
+                //     success: function (data) {
+                //         if (data.code == 0) {
+                //             alert('操作成功', function(){
+                //                 vm.reload();
+                //             });
                 //         }else{
-                //             layer.alert(r.msg);
-                //             $('#btnSaveOrUpdate').button('reset');
-                //             $('#btnSaveOrUpdate').dequeue();
+                //             alert(data.msg);
                 //         }
+                //     },
+                //     error: function (response) {
+                //         console.log(response);
                 //     }
                 // });
+
 			});
 		},
 		del: function (event) {

@@ -4,11 +4,20 @@ $(function () {
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '商品名称', name: 'goodsName', index: 'goods_name', width: 80 }, 			
-			{ label: '商品标题', name: 'goodsTitle', index: 'goods_title', width: 80 }, 			
-			{ label: '商品介绍', name: 'goodsAbstract', index: 'goods_abstract', width: 80 }, 			
-			{ label: '单价', name: 'goodsPrice', index: 'goods_price', width: 80 }, 			
-			{ label: '销量', name: 'goodsSell', index: 'goods_sell', width: 80 }			
+			{ label: '商品名称', name: 'goodsName', index: 'name', width: 80 },
+			{ label: '商品标题', name: 'goodsTitle', index: 'title', width: 80 },
+			{ label: '商品介绍', name: 'goodsAbstract', index: 'detail', width: 80 },
+			{ label: '单价', name: 'goodsPrice', index: 'price', width: 80 },
+			{ label: '销量', name: 'goodsSell', index: 'sales', width: 80 },
+            { label: '原价', name: 'originalPrice', index: 'original_price', width: 80 },
+            { label: '类别', name: 'carId', index: 'car_id', width: 80 },
+            { label: '状态', name: 'status', index: 'status', width: 80 },
+            { label: '排序', name: 'sort', index: 'sort', width: 80 },
+            { label: '缩略图', name: 'coverPic', index: 'cover_pic', width: 80 },
+            { label: '大图', name: 'picture', index: 'picture', width: 80 },
+            { label: '添加时间', name: 'addTime', index: 'add_time', width: 80 },
+            { label: '门店', name: 'shopId', index: 'shop_id', width: 80 },
+
         ],
 		viewrecords: true,
         height: 385,
@@ -65,25 +74,56 @@ var vm = new Vue({
 		},
 		saveOrUpdate: function (event) {
 		    $('#btnSaveOrUpdate').button('loading').delay(1000).queue(function() {
+                var coverPic = vm.checkImg($('#coverPic').val());
+                var picture = vm.checkImg($('#picture').val());
+                if(coverPic==0||picture==0){
+                    return;
+                }
                 var url = vm.xhGoods.id == null ? "sys/xhgoods/save" : "sys/xhgoods/update";
+                var formData = new FormData();
+                formData.append("coverPic", $('#coverPic')[0].files[0]);
+                formData.append("picture", $('#picture')[0].files[0]);
+                formData.append("data",JSON.stringify(vm.xhGoods));
+                //发送文件数据
                 $.ajax({
-                    type: "POST",
                     url: baseURL + url,
-                    contentType: "application/json",
-                    data: JSON.stringify(vm.xhGoods),
-                    success: function(r){
-                        if(r.code === 0){
-                             layer.msg("操作成功", {icon: 1});
-                             vm.reload();
-                             $('#btnSaveOrUpdate').button('reset');
-                             $('#btnSaveOrUpdate').dequeue();
+                    dataType: 'json',
+                    type: 'POST',
+                    cache: false, //上传文件不需要缓存
+                    data: formData,
+                    processData: false, // 告诉jQuery不要去处理发送的数据
+                    contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                    success: function (data) {
+                        if (data.code == 0) {
+                            alert('操作成功', function(){
+                                vm.reload();
+                            });
                         }else{
-                            layer.alert(r.msg);
-                            $('#btnSaveOrUpdate').button('reset');
-                            $('#btnSaveOrUpdate').dequeue();
+                            alert(data.msg);
                         }
+                    },
+                    error: function (response) {
+                        console.log(response);
                     }
                 });
+                // $.ajax({
+                //     type: "POST",
+                //     url: baseURL + url,
+                //     contentType: "application/json",
+                //     data: JSON.stringify(vm.xhGoods),
+                //     success: function(r){
+                //         if(r.code === 0){
+                //              layer.msg("操作成功", {icon: 1});
+                //              vm.reload();
+                //              $('#btnSaveOrUpdate').button('reset');
+                //              $('#btnSaveOrUpdate').dequeue();
+                //         }else{
+                //             layer.alert(r.msg);
+                //             $('#btnSaveOrUpdate').button('reset');
+                //             $('#btnSaveOrUpdate').dequeue();
+                //         }
+                //     }
+                // });
 			});
 		},
 		del: function (event) {
@@ -126,7 +166,23 @@ var vm = new Vue({
 			$("#jqGrid").jqGrid('setGridParam',{ 
                 page:page
             }).trigger("reloadGrid");
-		}
+		},
+        checkImg:function (val) {
+            var img_id = val;
+            var index= img_id.indexOf(".");
+            img_id=img_id.substring(index);
+            if(img_id!=".bmp"&&img_id!=".png"&&img_id!=".gif"&&img_id!=".jpg"&&img_id!=".jpeg"){  //根据后缀，判断是否符合图片格式
+                alert("不是指定图片格式,重新选择");
+                $("#fileSelect").val("");
+                $('#btnSaveOrUpdate').button('reset');
+                $('#btnSaveOrUpdate').dequeue();
+                return 0;
+            }else{
+                return 1;
+            }
+
+        }
+
 
     }
 });

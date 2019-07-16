@@ -104,7 +104,6 @@ public class SysOssController {
 	 * 上传文件
 	 */
 	@RequestMapping("/upload")
-	@RequiresPermissions("sys:oss:all")
 	public R upload(@RequestParam("file") MultipartFile file) throws Exception {
 		if (file.isEmpty()) {
 			throw new RRException("上传文件不能为空");
@@ -114,11 +113,11 @@ public class SysOssController {
 		String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 		String url = OSSFactory.build().uploadSuffix(file.getBytes(), suffix);
 
-		//保存文件信息
-		SysOssEntity ossEntity = new SysOssEntity();
-		ossEntity.setUrl(url);
-		ossEntity.setCreateDate(new Date());
-		sysOssService.save(ossEntity);
+//		//保存文件信息
+//		SysOssEntity ossEntity = new SysOssEntity();
+//		ossEntity.setUrl(url);
+//		ossEntity.setCreateDate(new Date());
+//		sysOssService.save(ossEntity);
 
 		return R.ok().put("url", url);
 	}
