@@ -11,7 +11,11 @@ $(function () {
 			{ label: '销量', name: 'sales', index: 'sales', width: 80 },
             { label: '原价', name: 'originalPrice', index: 'original_price', width: 80 },
             { label: '类别', name: 'catId', index: 'cat_id', width: 80 },
-            { label: '状态', name: 'status', index: 'status', width: 80 },
+            { label: '状态', name: 'status', width: 60, formatter: function(value, options, row){
+                    return value === 0 ?
+                        '<span class="label label-success">上架</span>' :
+                        '<span class="label label-danger">下架</span>';
+                }},
             { label: '排序', name: 'sort', index: 'sort', width: 80 },
             // { label: '缩略图', name: 'coverPic', index: 'cover_pic', width: 80 },
             { label: '缩略图', name: 'coverPic', width: 80, formatter: function(value, options, row){
@@ -22,7 +26,7 @@ $(function () {
                     return   '<img src='+value+' style="height:100px;width=100px" />';
                 }},
             { label: '添加时间', name: 'addTime', index: 'add_time', width: 80 },
-            { label: '门店', name: 'shopId', index: 'shop_id', width: 80 },
+            { label: '门店', name: 'deptId', index: 'shop_id', width: 80 },
 
         ],
 		viewrecords: true,
@@ -92,15 +96,42 @@ $(function () {
         }
     });
 });
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "deptId",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    }
+};
 
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
 		showList: true,
 		title: null,
-		xhGoods: {}
+		xhGoods: {
+            deptId:null,
+            deptName:null,
+        }
 	},
 	methods: {
+        getDept: function(){
+            //加载部门树
+            $.get(baseURL + "sys/dept//ParentList", function(r){
+                ztree = $.fn.zTree.init($("#deptTree"), setting, r);
+                var node = ztree.getNodeByParam("deptId", vm.xhGoods.deptId);
+                if(node != null){
+                    ztree.selectNode(node);
+                    vm.xhGoods.deptName = node.name;
+                }
+            })
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -108,6 +139,8 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.xhGoods = {};
+
+            vm.getDept();
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -178,6 +211,27 @@ var vm = new Vue({
                 vm.xhGoods = r.xhGoods;
             });
 		},
+        deptTree: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择门店",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#deptLayer"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztree.getSelectedNodes();
+                    //选择上级部门
+                    vm.xhGoods.deptId = node[0].deptId;
+                    vm.xhGoods.deptName = node[0].name;
+
+                    layer.close(index);
+                }
+            });
+        },
 		reload: function (event) {
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');

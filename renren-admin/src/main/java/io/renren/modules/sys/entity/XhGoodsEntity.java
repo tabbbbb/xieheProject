@@ -1,6 +1,8 @@
 package io.renren.modules.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -72,15 +74,23 @@ public class XhGoodsEntity implements Serializable {
 	/**
 	 * 添加时间
 	 */
-	private String addTime;
+	private Date addTime;
 	/**
 	 * 删除标记
 	 */
+	@TableLogic
 	private Integer isDelete;
 	/**
 	 * 门店ID
 	 */
-	private Integer shopId;
+	private Integer deptId;
+
+
+	/**
+	 * 门店名称
+	 */
+	@TableField(exist=false)
+	private String deptName;
 
 	public Integer getId() {
 		return id;
@@ -170,11 +180,11 @@ public class XhGoodsEntity implements Serializable {
 		this.coverPic = coverPic;
 	}
 
-	public String getAddTime() {
+	public Date getAddTime() {
 		return addTime;
 	}
 
-	public void setAddTime(String addTime) {
+	public void setAddTime(Date addTime) {
 		this.addTime = addTime;
 	}
 
@@ -186,13 +196,6 @@ public class XhGoodsEntity implements Serializable {
 		this.isDelete = isDelete;
 	}
 
-	public Integer getShopId() {
-		return shopId;
-	}
-
-	public void setShopId(Integer shopId) {
-		this.shopId = shopId;
-	}
 
 	public String getPicture() {
 		return picture;
@@ -200,5 +203,21 @@ public class XhGoodsEntity implements Serializable {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	public Integer getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
 	}
 }

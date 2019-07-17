@@ -14,7 +14,7 @@
 
     <!-- 根据key，查询value -->
     <select id="findByPage" resultType="io.renren.modules.sys.entity.XhImageEntity">
-		select a.*,b.goods_name from xh_image as a LEFT JOIN xh_goods as b on a.goods_id=b.id  ${ew.customSqlSegment}
+		select a.*,b.name from xh_image as a LEFT JOIN xh_goods as b on a.goods_id=b.id  ${ew.customSqlSegment}
 	</select>
 
 

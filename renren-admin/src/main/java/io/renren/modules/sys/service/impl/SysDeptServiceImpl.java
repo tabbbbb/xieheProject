@@ -8,13 +8,20 @@
 
 package io.renren.modules.sys.service.impl;
 
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.annotation.DataFilter;
+import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.Query;
 import io.renren.modules.sys.dao.SysDeptDao;
 import io.renren.modules.sys.entity.SysDeptEntity;
 import io.renren.modules.sys.service.SysDeptService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +29,18 @@ import java.util.Map;
 
 @Service("sysDeptService")
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> implements SysDeptService {
-	
+	@Resource
+	private SysDeptDao deptDao;
 	@Override
 	@DataFilter(subDept = true, user = false, tableAlias = "t1")
 	public List<SysDeptEntity> queryList(Map<String, Object> params){
 		return baseMapper.queryList(params);
+	}
+
+	@Override
+	@DataFilter(subDept = true, user = false, tableAlias = "t1")
+	public List<SysDeptEntity> queryParentList(Map<String, Object> params){
+		return deptDao.queryParentList(params);
 	}
 
 	@Override
@@ -59,4 +73,15 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
 			deptIdList.add(deptId);
 		}
 	}
+
+
+	@Override
+	public PageUtils apiQueryPage(Map<String, Object> params) throws Exception {
+		IPage<SysDeptEntity> page = this.deptDao.findApiPage(
+				new Query<SysDeptEntity>().getPage(params),
+				new QueryWrapper<SysDeptEntity>()
+		);
+		return new PageUtils(page);
+	}
+
 }

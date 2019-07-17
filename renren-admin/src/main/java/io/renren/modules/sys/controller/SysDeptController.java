@@ -44,6 +44,11 @@ public class SysDeptController extends AbstractController {
 
 		return deptList;
 	}
+	@RequestMapping("/ParentList")
+	public List<SysDeptEntity> ParentList(){
+		List<SysDeptEntity> deptList = sysDeptService.queryParentList(new HashMap<String, Object>());
+		return deptList;
+	}
 
 	/**
 	 * 选择部门(添加、修改菜单)
@@ -54,7 +59,7 @@ public class SysDeptController extends AbstractController {
 		List<SysDeptEntity> deptList = sysDeptService.queryList(new HashMap<String, Object>());
 
 		//添加一级部门
-		if(getUserId() == Constant.SUPER_ADMIN){
+			if(getUserId() == Constant.SUPER_ADMIN){
 			SysDeptEntity root = new SysDeptEntity();
 			root.setDeptId(0L);
 			root.setName("一级部门");

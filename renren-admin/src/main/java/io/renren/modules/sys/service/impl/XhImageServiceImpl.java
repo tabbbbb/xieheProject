@@ -27,11 +27,11 @@ public class XhImageServiceImpl extends ServiceImpl<XhImageDao, XhImageEntity> i
     private XhImageDao xhImageDao;
     @Override
     public PageUtils queryPage(Map<String, Object> params) throws Exception {
-        String goodsName = (String)params.get("goodsName");
+        String name = (String)params.get("name");
         IPage<XhImageEntity> page = this.xhImageDao.findByPage(
                 new Query<XhImageEntity>().getPage(params),
                 new QueryWrapper<XhImageEntity>()
-                        .like(StringUtils.isNotBlank(goodsName),"b.goods_name", goodsName)
+                        .like(StringUtils.isNotBlank(name),"b.name", name)
         );
         return new PageUtils(page);
     }

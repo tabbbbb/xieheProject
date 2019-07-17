@@ -1,11 +1,13 @@
 package io.renren.modules.sys.controller;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
+import io.renren.common.utils.Constant;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.modules.oss.cloud.OSSFactory;
+import io.renren.modules.sys.entity.SysDeptEntity;
+import io.renren.modules.sys.service.SysDeptService;
 import net.sf.json.JSONObject;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +33,11 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping("sys/xhgoods")
-public class XhGoodsController {
+public class XhGoodsController extends AbstractController{
     @Autowired
     private XhGoodsService xhGoodsService;
+    @Autowired
+    private SysDeptService sysDeptService;
 
     /**
      * 列表
@@ -68,6 +72,7 @@ public class XhGoodsController {
         ValidatorUtils.validateEntity(goodsEntity);
         goodsEntity.setIsDelete(0);
         goodsEntity.setSales(0);
+        goodsEntity.setAddTime(new Date());
         xhGoodsService.save(goodsEntity);
         return R.ok();
     }
@@ -94,5 +99,7 @@ public class XhGoodsController {
 
         return R.ok();
     }
+
+
 
 }

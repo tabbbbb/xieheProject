@@ -9,7 +9,7 @@ $(function () {
             { label: '图片地址', name: 'imgUrl', width: 60, formatter: function(value, options, row){
                     return   '<img src='+value+' style="height:100px;width=100px" />';
                 }},
-			{ label: '商品名称', name: 'goodsName', index: 'goods_name', width: 80 },
+			{ label: '商品名称', name: 'name', index: 'name', width: 80 },
 			{ label: '图片排序', name: 'displayOrder', index: 'display_order', width: 80 }			
         ],
 		viewrecords: true,
@@ -70,7 +70,7 @@ var vm = new Vue({
 	el:'#rrapp',
 	data:{
         q:{
-            goodsName: null
+            name: null
         },
 		showList: true,
 		title: null,
@@ -185,7 +185,7 @@ var vm = new Vue({
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
 			$("#jqGrid").jqGrid('setGridParam',{
                 postData:{
-                    'goodsName': vm.q.goodsName
+                    'name': vm.q.name
                 },
                 page:page
             }).trigger("reloadGrid");

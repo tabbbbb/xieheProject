@@ -43,7 +43,7 @@ public class XhImageEntity implements Serializable {
 	private Integer displayOrder;
 
 	@TableField(exist=false)
-	private String goodsName;
+	private String name;
 
 	public Integer getId() {
 		return id;

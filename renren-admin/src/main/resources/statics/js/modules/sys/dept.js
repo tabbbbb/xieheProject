@@ -80,33 +80,22 @@ var vm = new Vue({
         },
         saveOrUpdate: function (event) {
             var url = vm.dept.deptId == null ? "sys/dept/save" : "sys/dept/update";
-            var picture = vm.checkImg($('#picture').val());
-            if(picture==0){
-                return;
-            }
-            var formData = new FormData();
-            formData.append("picture", $('#picture')[0].files[0]);
-            formData.append("data",JSON.stringify(vm.dept));
-            //发送文件数据
             $.ajax({
+                type: "POST",
                 url: baseURL + url,
-                dataType: 'json',
-                type: 'POST',
-                cache: false, //上传文件不需要缓存
-                data: formData,
-                processData: false, // 告诉jQuery不要去处理发送的数据
-                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-                success: function (data) {
-                    if (data.code == 0) {
-                        alert('操作成功', function(){
-                            vm.reload();
-                        });
+                contentType: "application/json",
+                data: JSON.stringify(vm.dept),
+                success: function(r){
+                    if(r.code === 0){
+                        layer.msg("操作成功", {icon: 1});
+                        vm.reload();
+                        $('#btnSaveOrUpdate').button('reset');
+                        $('#btnSaveOrUpdate').dequeue();
                     }else{
-                        alert(data.msg);
+                        layer.alert(r.msg);
+                        $('#btnSaveOrUpdate').button('reset');
+                        $('#btnSaveOrUpdate').dequeue();
                     }
-                },
-                error: function (response) {
-                    console.log(response);
                 }
             });
         },
@@ -169,8 +158,12 @@ Dept.initColumn = function () {
         {title: '部门名称', field: 'name', align: 'center', valign: 'middle', sortable: true, width: '180px'},
         {title: '上级部门', field: 'parentName', align: 'center', valign: 'middle', sortable: true, width: '100px'},
         {title: '排序号', field: 'orderNum', align: 'center', valign: 'middle', sortable: true, width: '100px'},
-        {title: '门店图片', field: 'shopPic', align: 'center', valign: 'middle', sortable: true, width: '100px'},
+        {title: '门店图片', field: 'shopPic', align: 'center', valign: 'middle', sortable: true, width: '100px' ,formatter: function(item, index){
+                return item.shopPic == null ? '' : '<img src="'+item.shopPic+'" style="height:100px;width=100px"/>';
+            }},
         {title: '门店积分', field: 'shopPoint', align: 'center', valign: 'middle', sortable: true, width: '100px'},
+        {title: '门店经度坐标', field: 'longitude', align: 'center', valign: 'middle', sortable: true, width: '100px'},
+        {title: '门店纬度坐标', field: 'latitude', align: 'center', valign: 'middle', sortable: true, width: '100px'},
         {title: '门店地址', field: 'address', align: 'center', valign: 'middle', sortable: true, width: '100px'},
         {title: '门店电话', field: 'telephone', align: 'center', valign: 'middle', sortable: true, width: '100px'}
     ]
@@ -193,6 +186,7 @@ $(function () {
     $.get(baseURL + "sys/dept/info", function(r){
         var colunms = Dept.initColumn();
         var table = new TreeTable(Dept.id, baseURL + "sys/dept/list", colunms);
+        console.log(table);
         table.setRootCodeValue(r.deptId);
         table.setExpandColumn(2);
         table.setIdField("deptId");
@@ -201,5 +195,25 @@ $(function () {
         table.setExpandAll(false);
         table.init();
         Dept.table = table;
+    });
+    new AjaxUpload('#upload', {
+        action: baseURL + "sys/oss/upload",
+        name: 'file',
+        autoSubmit:true,
+        responseType:"json",
+        onSubmit:function(file, extension){
+            if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+                alert('只支持jpg、png、gif格式的图片！');
+                return false;
+            }
+        },
+        onComplete : function(file, r){
+            if(r.code == 0){
+                $("#picture").val(r.url);
+                vm.dept['shopPic']=r.url;
+            }else{
+                alert(r.msg);
+            }
+        }
     });
 });

@@ -69,7 +69,7 @@ public class XhOrderEntity implements Serializable {
 	/**
 	 * 门店id
 	 */
-	private Integer shopId;
+	private Integer deptId;
 
 	public Integer getId() {
 		return id;
@@ -159,11 +159,12 @@ public class XhOrderEntity implements Serializable {
 		this.clerkId = clerkId;
 	}
 
-	public Integer getShopId() {
-		return shopId;
+
+	public Integer getDeptId() {
+		return deptId;
 	}
 
-	public void setShopId(Integer shopId) {
-		this.shopId = shopId;
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
 	}
 }

@@ -10,6 +10,7 @@ package io.renren.modules.sys.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.renren.common.utils.PageUtils;
 import io.renren.modules.sys.entity.SysDeptEntity;
 
 import java.util.List;
@@ -23,7 +24,10 @@ import java.util.Map;
 public interface SysDeptService extends IService<SysDeptEntity> {
 
 	List<SysDeptEntity> queryList(Map<String, Object> map);
-
+	/**
+	*查询所有上级部门
+	 */
+	List<SysDeptEntity> queryParentList(Map<String, Object> map);
 	/**
 	 * 查询子部门ID列表
 	 * @param parentId  上级部门ID
@@ -35,4 +39,5 @@ public interface SysDeptService extends IService<SysDeptEntity> {
 	 */
 	List<Long> getSubDeptIdList(Long deptId);
 
+	PageUtils apiQueryPage(Map<String, Object> params)throws Exception;;
 }

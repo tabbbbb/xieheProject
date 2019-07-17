@@ -58,6 +58,10 @@ public class SysDeptEntity implements Serializable {
 	 */
 	private String address;
 	/**
+	 * 门店图片
+	 */
+	private String shopPic;
+	/**
 	 * 门店电话
 	 */
 	private String telephone;
@@ -179,5 +183,13 @@ public class SysDeptEntity implements Serializable {
 
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
+	}
+
+	public String getShopPic() {
+		return shopPic;
+	}
+
+	public void setShopPic(String shopPic) {
+		this.shopPic = shopPic;
 	}
 }
