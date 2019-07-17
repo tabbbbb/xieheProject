@@ -4,17 +4,23 @@ $(function () {
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '商品名称', name: 'goodsName', index: 'name', width: 80 },
-			{ label: '商品标题', name: 'goodsTitle', index: 'title', width: 80 },
-			{ label: '商品介绍', name: 'goodsAbstract', index: 'detail', width: 80 },
-			{ label: '单价', name: 'goodsPrice', index: 'price', width: 80 },
-			{ label: '销量', name: 'goodsSell', index: 'sales', width: 80 },
+			{ label: '商品名称', name: 'name', index: 'name', width: 80 },
+			{ label: '商品标题', name: 'title', index: 'title', width: 80 },
+			{ label: '商品介绍', name: 'detail', index: 'detail', width: 80 },
+			{ label: '单价', name: 'price', index: 'price', width: 80 },
+			{ label: '销量', name: 'sales', index: 'sales', width: 80 },
             { label: '原价', name: 'originalPrice', index: 'original_price', width: 80 },
-            { label: '类别', name: 'carId', index: 'car_id', width: 80 },
+            { label: '类别', name: 'catId', index: 'cat_id', width: 80 },
             { label: '状态', name: 'status', index: 'status', width: 80 },
             { label: '排序', name: 'sort', index: 'sort', width: 80 },
-            { label: '缩略图', name: 'coverPic', index: 'cover_pic', width: 80 },
-            { label: '大图', name: 'picture', index: 'picture', width: 80 },
+            // { label: '缩略图', name: 'coverPic', index: 'cover_pic', width: 80 },
+            { label: '缩略图', name: 'coverPic', width: 80, formatter: function(value, options, row){
+                    return   '<img src='+value+' style="height:100px;width=100px" />';
+                }},
+            // { label: '大图', name: 'picture', index: 'picture', width: 80 },
+            { label: '商品图', name: 'picture', width: 80, formatter: function(value, options, row){
+                    return   '<img src='+value+' style="height:100px;width=100px" />';
+                }},
             { label: '添加时间', name: 'addTime', index: 'add_time', width: 80 },
             { label: '门店', name: 'shopId', index: 'shop_id', width: 80 },
 
@@ -42,6 +48,47 @@ $(function () {
         gridComplete:function(){
         	//隐藏grid底部滚动条
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
+        }
+    });
+
+    new AjaxUpload('#upload', {
+        action: baseURL + "sys/oss/upload",
+        name: 'file',
+        autoSubmit:true,
+        responseType:"json",
+        onSubmit:function(file, extension){
+            if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+                alert('只支持jpg、png、gif格式的图片！');
+                return false;
+            }
+        },
+        onComplete : function(file, r){
+            if(r.code == 0){
+                $("#coverPic").val(r.url);
+                vm.xhGoods['coverPic']=r.url;
+            }else{
+                alert(r.msg);
+            }
+        }
+    });
+    new AjaxUpload('#upload1', {
+        action: baseURL + "sys/oss/upload",
+        name: 'file',
+        autoSubmit:true,
+        responseType:"json",
+        onSubmit:function(file, extension){
+            if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+                alert('只支持jpg、png、gif格式的图片！');
+                return false;
+            }
+        },
+        onComplete : function(file, r){
+            if(r.code == 0){
+                $("#picture").val(r.url);
+                vm.xhGoods['picture']=r.url;
+            }else{
+                alert(r.msg);
+            }
         }
     });
 });
@@ -74,56 +121,27 @@ var vm = new Vue({
 		},
 		saveOrUpdate: function (event) {
 		    $('#btnSaveOrUpdate').button('loading').delay(1000).queue(function() {
-                var coverPic = vm.checkImg($('#coverPic').val());
-                var picture = vm.checkImg($('#picture').val());
-                if(coverPic==0||picture==0){
-                    return;
-                }
+
                 var url = vm.xhGoods.id == null ? "sys/xhgoods/save" : "sys/xhgoods/update";
-                var formData = new FormData();
-                formData.append("coverPic", $('#coverPic')[0].files[0]);
-                formData.append("picture", $('#picture')[0].files[0]);
-                formData.append("data",JSON.stringify(vm.xhGoods));
-                //发送文件数据
+
                 $.ajax({
+                    type: "POST",
                     url: baseURL + url,
-                    dataType: 'json',
-                    type: 'POST',
-                    cache: false, //上传文件不需要缓存
-                    data: formData,
-                    processData: false, // 告诉jQuery不要去处理发送的数据
-                    contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-                    success: function (data) {
-                        if (data.code == 0) {
-                            alert('操作成功', function(){
-                                vm.reload();
-                            });
+                    contentType: "application/json",
+                    data: JSON.stringify(vm.xhGoods),
+                    success: function(r){
+                        if(r.code === 0){
+                             layer.msg("操作成功", {icon: 1});
+                             vm.reload();
+                             $('#btnSaveOrUpdate').button('reset');
+                             $('#btnSaveOrUpdate').dequeue();
                         }else{
-                            alert(data.msg);
+                            layer.alert(r.msg);
+                            $('#btnSaveOrUpdate').button('reset');
+                            $('#btnSaveOrUpdate').dequeue();
                         }
-                    },
-                    error: function (response) {
-                        console.log(response);
                     }
                 });
-                // $.ajax({
-                //     type: "POST",
-                //     url: baseURL + url,
-                //     contentType: "application/json",
-                //     data: JSON.stringify(vm.xhGoods),
-                //     success: function(r){
-                //         if(r.code === 0){
-                //              layer.msg("操作成功", {icon: 1});
-                //              vm.reload();
-                //              $('#btnSaveOrUpdate').button('reset');
-                //              $('#btnSaveOrUpdate').dequeue();
-                //         }else{
-                //             layer.alert(r.msg);
-                //             $('#btnSaveOrUpdate').button('reset');
-                //             $('#btnSaveOrUpdate').dequeue();
-                //         }
-                //     }
-                // });
 			});
 		},
 		del: function (event) {

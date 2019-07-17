@@ -66,6 +66,8 @@ public class XhGoodsController {
     public R save(@RequestBody XhGoodsEntity goodsEntity){
         //校验类型
         ValidatorUtils.validateEntity(goodsEntity);
+        goodsEntity.setIsDelete(0);
+        goodsEntity.setSales(0);
         xhGoodsService.save(goodsEntity);
         return R.ok();
     }

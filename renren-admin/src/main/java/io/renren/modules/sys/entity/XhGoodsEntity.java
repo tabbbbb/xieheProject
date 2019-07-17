@@ -44,7 +44,7 @@ public class XhGoodsEntity implements Serializable {
 	/**
 	 * 销量
 	 */
-	private String sales;
+	private Integer sales;
 	/**
 	 * 原价
 	 */
@@ -52,7 +52,7 @@ public class XhGoodsEntity implements Serializable {
 	/**
 	 * 商品分类
 	 */
-	private Integer carId;
+	private Integer catId;
 	/**
 	 * 商品状态，1上架，2下架
 	 */
@@ -76,7 +76,7 @@ public class XhGoodsEntity implements Serializable {
 	/**
 	 * 删除标记
 	 */
-	private String isDelete;
+	private Integer isDelete;
 	/**
 	 * 门店ID
 	 */
@@ -122,11 +122,11 @@ public class XhGoodsEntity implements Serializable {
 		this.price = price;
 	}
 
-	public String getSales() {
+	public Integer getSales() {
 		return sales;
 	}
 
-	public void setSales(String sales) {
+	public void setSales(Integer sales) {
 		this.sales = sales;
 	}
 
@@ -138,12 +138,12 @@ public class XhGoodsEntity implements Serializable {
 		this.originalPrice = original_price;
 	}
 
-	public Integer getCarId() {
-		return carId;
+	public Integer getCatId() {
+		return catId;
 	}
 
-	public void setCarId(Integer carId) {
-		this.carId = carId;
+	public void setCatId(Integer catId) {
+		this.catId = catId;
 	}
 
 	public Integer getStatus() {
@@ -178,11 +178,11 @@ public class XhGoodsEntity implements Serializable {
 		this.addTime = addTime;
 	}
 
-	public String getIsDelete() {
+	public Integer getIsDelete() {
 		return isDelete;
 	}
 
-	public void setIsDelete(String isDelete) {
+	public void setIsDelete(Integer isDelete) {
 		this.isDelete = isDelete;
 	}
 
