@@ -138,7 +138,7 @@ var vm = new Vue({
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
-			vm.xhGoods = {};
+			vm.xhGoods = {deptName:null, deptId:null};
 
             vm.getDept();
 		},
