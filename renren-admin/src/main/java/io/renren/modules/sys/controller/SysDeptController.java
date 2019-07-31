@@ -67,7 +67,6 @@ public class SysDeptController extends AbstractController {
 			root.setOpen(true);
 			deptList.add(root);
 		}
-
 		return R.ok().put("deptList", deptList);
 	}
 

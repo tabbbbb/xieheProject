@@ -6,11 +6,13 @@ $(function () {
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
 			{ label: '商品名称', name: 'name', index: 'name', width: 80 },
 			{ label: '商品标题', name: 'title', index: 'title', width: 80 },
-			{ label: '商品介绍', name: 'detail', index: 'detail', width: 80 },
+			{ label: '商品介绍', name: 'detail', index: 'detail', width: 80,formatter: function(value, options, row){
+                    return   '<img src='+value+' style="height:100px;width=100px" />';
+			}},
 			{ label: '单价', name: 'price', index: 'price', width: 80 },
 			{ label: '销量', name: 'sales', index: 'sales', width: 80 },
             { label: '原价', name: 'originalPrice', index: 'original_price', width: 80 },
-            { label: '类别', name: 'catId', index: 'cat_id', width: 80 },
+            { label: '类别', name: 'dictName', index: 'cat_id', width: 80 },
             { label: '状态', name: 'status', width: 60, formatter: function(value, options, row){
                     return value === 0 ?
                         '<span class="label label-success">上架</span>' :
@@ -26,7 +28,7 @@ $(function () {
                     return   '<img src='+value+' style="height:100px;width=100px" />';
                 }},
             { label: '添加时间', name: 'addTime', index: 'add_time', width: 80 },
-            { label: '门店', name: 'deptId', index: 'shop_id', width: 80 },
+            { label: '门店', name: 'deptName', index: 'shop_id', width: 80 },
 
         ],
 		viewrecords: true,
@@ -95,6 +97,26 @@ $(function () {
             }
         }
     });
+    new AjaxUpload('#upload2', {
+        action: baseURL + "sys/oss/upload",
+        name: 'file',
+        autoSubmit:true,
+        responseType:"json",
+        onSubmit:function(file, extension){
+            if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+                alert('只支持jpg、png、gif格式的图片！');
+                return false;
+            }
+        },
+        onComplete : function(file, r){
+            if(r.code == 0){
+                $("#detail").val(r.url);
+                vm.xhGoods['detail']=r.url;
+            }else{
+                alert(r.msg);
+            }
+        }
+    });
 });
 var setting = {
     data: {
@@ -109,26 +131,58 @@ var setting = {
         }
     }
 };
+var settingDict = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "deptId",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            name:"value",
+            url:"nourl"
+        }
+    }
+};
 
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+        q:{
+            name: null,
+            deptName:null,
+            dictName:null
+        },
 		showList: true,
 		title: null,
 		xhGoods: {
             deptId:null,
             deptName:null,
+            catId:null,
+            dictName:null
         }
 	},
 	methods: {
         getDept: function(){
             //加载部门树
-            $.get(baseURL + "sys/dept//ParentList", function(r){
+            $.get(baseURL + "sys/dept/ParentList", function(r){
                 ztree = $.fn.zTree.init($("#deptTree"), setting, r);
                 var node = ztree.getNodeByParam("deptId", vm.xhGoods.deptId);
                 if(node != null){
                     ztree.selectNode(node);
                     vm.xhGoods.deptName = node.name;
+                }
+            })
+        },
+        getDict: function(){
+            //加载类目
+            $.get(baseURL + "sys/dict/ParentList", function(r){
+                ztreeDict = $.fn.zTree.init($("#dictTree"), settingDict, r);
+                var node = ztreeDict.getNodeByParam("id", vm.xhGoods.catId);
+                if(node != null){
+                    ztreeDict.selectNode(node);
+                    vm.xhGoods.dictName = node.value;
                 }
             })
         },
@@ -138,8 +192,8 @@ var vm = new Vue({
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
-			vm.xhGoods = {deptName:null, deptId:null};
-
+			vm.xhGoods = {deptName:null, deptId:null,catId:null,dictName:null};
+            vm.getDict();
             vm.getDept();
 		},
 		update: function (event) {
@@ -209,6 +263,8 @@ var vm = new Vue({
 		getInfo: function(id){
 			$.get(baseURL + "sys/xhgoods/info/"+id, function(r){
                 vm.xhGoods = r.xhGoods;
+                vm.getDict();
+                vm.getDept();
             });
 		},
         deptTree: function(){
@@ -227,6 +283,26 @@ var vm = new Vue({
                     //选择上级部门
                     vm.xhGoods.deptId = node[0].deptId;
                     vm.xhGoods.deptName = node[0].name;
+                    layer.close(index);
+                }
+            });
+        },
+        dictTree: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择类目",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#dictLayer"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztreeDict.getSelectedNodes();
+                    //选择上级部门
+                    vm.xhGoods.catId = node[0].id;
+                    vm.xhGoods.dictName = node[0].value;
 
                     layer.close(index);
                 }
@@ -235,7 +311,12 @@ var vm = new Vue({
 		reload: function (event) {
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
-			$("#jqGrid").jqGrid('setGridParam',{ 
+			$("#jqGrid").jqGrid('setGridParam',{
+                postData:{
+                    'name': vm.q.name,
+                    'deptName': vm.q.deptName,
+                    'dictName': vm.q.dictName
+                },
                 page:page
             }).trigger("reloadGrid");
 		},

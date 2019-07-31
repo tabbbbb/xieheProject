@@ -12,6 +12,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.renren.modules.sys.entity.SysDictEntity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 数据字典
  *
@@ -19,5 +22,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysDictDao extends BaseMapper<SysDictEntity> {
-	
+
+    List<SysDictEntity> queryCategoryList(Map<String, Object> params);
 }

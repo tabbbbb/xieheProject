@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>优惠券基础配置表</title>
+		<#include "/header.html">
+    <script src="${request.contextPath}/statics/libs/ajaxupload.js"></script>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+			<#if shiro.hasPermission("sys:xhcoupon:save")>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			</#if>
+			<#if shiro.hasPermission("sys:xhcoupon:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("sys:xhcoupon:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+														                    <div class="form-group">
+                        <div class="col-sm-2 control-label">所属类型,1为满减</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="xhCoupon.type" placeholder="所属类型,1为满减"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">优惠券名称</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="xhCoupon.name" placeholder="优惠券名称"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">图片的URL地址</div>
+                        <div class="col-sm-10">
+                            <input type="text" id="img" class="form-control" v-model="xhCoupon.img" placeholder="图片的URL地址" readonly/>
+                            <a class="btn btn-primary" id="upload"><i class="fa fa-plus"></i>&nbsp;上传文件</a>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">优惠券开始时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" id="startTime" class="form-control" v-model="xhCoupon.startTime" placeholder="优惠券开始时间" readonly/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">优惠券结束时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" id="endTime" class="form-control" v-model="xhCoupon.endTime" placeholder="优惠券结束时间" readonly/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">优惠券金额，用整数，固定值目前。</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="xhCoupon.money" placeholder="优惠券金额，用整数，固定值目前。"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">状态，0表示未开始，1表示进行中，-1表示结束</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="xhCoupon.status" placeholder="状态，0表示未开始，1表示进行中，-1表示结束"/>
+                        </div>
+                    </div>
+                   <div class="form-group">
+                        <div class="col-sm-2 control-label">优惠券的说明</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="xhCoupon.remarks" placeholder="优惠券的说明"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">金额满</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="xhCoupon.fullMoney" placeholder="金额满"/>
+                        </div>
+                    </div>
+							            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" id="btnSaveOrUpdate" data-loading-text="保存中..." @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="${request.contextPath}/statics/js/modules/sys/xhcoupon.js?_${.now?long}"></script>
+</body>
+</html>

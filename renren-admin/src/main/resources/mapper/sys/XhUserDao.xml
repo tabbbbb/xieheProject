@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.sys.dao.XhUserDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.sys.entity.XhUserEntity" id="xhUserMap">
+        <result property="id" column="id"/>
+        <result property="openId" column="open_id"/>
+        <result property="nikName" column="nik_name"/>
+        <result property="gender" column="gender"/>
+        <result property="userType" column="user_type"/>
+        <result property="sellId" column="sell_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="point" column="point"/>
+        <result property="level" column="level"/>
+        <result property="telphone" column="telphone"/>
+    </resultMap>
+    <!-- 查询分页信息 -->
+    <select id="findByPage" resultType="io.renren.modules.sys.entity.XhUserEntity">
+		select a.*,b.name as shop_name,c.nik_name as sell_name,d.nik_name as parent_name from xh_user as a LEFT JOIN sys_dept as b on a.shop_id = b.dept_id LEFT JOIN xh_user c on a.sell_id = c.id LEFT JOIN xh_user d on a.parent_id = d.id  ${ew.customSqlSegment}
+	</select>
+    <!--查询所有销售 -->
+    <select id="querySellList" resultType="io.renren.modules.sys.entity.XhUserEntity">
+		select * from xh_user where user_type=1
+	</select>
+
+</mapper>

@@ -11,6 +11,7 @@ package io.renren.modules.sys.controller;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.modules.sys.entity.SysDeptEntity;
 import io.renren.modules.sys.entity.SysDictEntity;
 import io.renren.modules.sys.service.SysDictService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -18,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +43,12 @@ public class SysDictController {
         PageUtils page = sysDictService.queryPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    @RequestMapping("/ParentList")
+    public List<SysDictEntity> ParentList(){
+        List<SysDictEntity> deptList = sysDictService.queryCategoryList(new HashMap<String, Object>());
+        return deptList;
     }
 
 

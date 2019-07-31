@@ -90,7 +90,6 @@ var vm = new Vue({
 
             //获取角色信息
             this.getRoleList();
-
             vm.getDept();
         },
         getDept: function(){

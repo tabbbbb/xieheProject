@@ -91,6 +91,11 @@ public class XhGoodsEntity implements Serializable {
 	 */
 	@TableField(exist=false)
 	private String deptName;
+	/**
+	 * 类别名称
+	 */
+	@TableField(exist=false)
+	private String dictName;
 
 	public Integer getId() {
 		return id;
@@ -219,5 +224,13 @@ public class XhGoodsEntity implements Serializable {
 
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
+	}
+
+	public String getDictName() {
+		return dictName;
+	}
+
+	public void setDictName(String dictName) {
+		this.dictName = dictName;
 	}
 }

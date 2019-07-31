@@ -12,6 +12,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.sys.entity.SysDictEntity;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,5 +24,9 @@ import java.util.Map;
 public interface SysDictService extends IService<SysDictEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+    /**
+     *查询所有类目
+     */
+    List<SysDictEntity> queryCategoryList(Map<String, Object> map);
 }
 

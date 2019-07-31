@@ -44,7 +44,7 @@ public class XhGoodsController extends AbstractController{
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:xhgoods:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) throws Exception {
         PageUtils page = xhGoodsService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -58,7 +58,6 @@ public class XhGoodsController extends AbstractController{
     @RequiresPermissions("sys:xhgoods:info")
     public R info(@PathVariable("id") Integer id){
         XhGoodsEntity xhGoods = xhGoodsService.getById(id);
-
         return R.ok().put("xhGoods", xhGoods);
     }
 
@@ -85,7 +84,6 @@ public class XhGoodsController extends AbstractController{
     public R update(@RequestBody XhGoodsEntity xhGoods){
         ValidatorUtils.validateEntity(xhGoods);
         xhGoodsService.updateById(xhGoods);
-        
         return R.ok();
     }
 

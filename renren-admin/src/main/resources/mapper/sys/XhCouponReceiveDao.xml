@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.sys.dao.XhCouponReceiveDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.sys.entity.XhCouponReceiveEntity" id="xhCouponReceiveMap">
+        <result property="id" column="id"/>
+        <result property="buyerId" column="buyer_id"/>
+        <result property="couponId" column="coupon_id"/>
+        <result property="couponMoney" column="coupon_money"/>
+        <result property="createTime" column="create_time"/>
+        <result property="fullMoney" column="full_money"/>
+        <result property="shareId" column="share_id"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="queryCoupon" resultType="io.renren.modules.sys.entity.XhCouponReceiveEntity">
+		select * from xh_coupon_receive where coupon_id = #{value}
+	</select>
+    <!-- 根据key，查询value -->
+    <select id="findByPage" resultType="io.renren.modules.sys.entity.XhCouponReceiveEntity">
+		select a.*,b.nik_name as buyer_name,c.nik_name as share_name from xh_coupon_receive as a LEFT JOIN xh_user as b on a.buyer_id=b.id LEFT JOIN xh_user as c on a.share_id=b.id  ${ew.customSqlSegment}
+	</select>
+
+</mapper>

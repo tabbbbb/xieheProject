@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.sys.entity.XhOrderEntity;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -16,5 +17,6 @@ import java.util.Map;
 public interface XhOrderService extends IService<XhOrderEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+    Object unifiedOrder(String outTradeNo, BigDecimal money, String openid) throws Exception;
 }
 

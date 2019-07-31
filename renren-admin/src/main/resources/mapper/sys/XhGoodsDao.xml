@@ -12,6 +12,9 @@
         <result property="goodsPrice" column="goods_price"/>
         <result property="goodsSell" column="goods_sell"/>
     </resultMap>
-
+    <!-- 根据key，查询value -->
+    <select id="findByPage" resultType="io.renren.modules.sys.entity.XhGoodsEntity">
+		select a.*,b.`name` as dept_name,c.`value` as dict_name from xh_goods as a LEFT JOIN sys_dept b on a.dept_id=b.dept_id LEFT JOIN sys_dict c on a.cat_id =c.id   ${ew.customSqlSegment}
+	</select>
 
 </mapper>

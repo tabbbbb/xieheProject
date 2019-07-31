@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+		<#include "/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <div class="form-group col-sm-2">
+                <input type="text" class="form-control" v-model="q.shopName" @keyup.enter="query" placeholder="门店名称">
+            </div>
+            <div class="form-group col-sm-2">
+                <input type="text" class="form-control" v-model="q.phone" @keyup.enter="query" placeholder="电话号码">
+            </div>
+            <a class="btn btn-default" @click="query">查询</a>
+			<#if shiro.hasPermission("sys:xhuser:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("sys:xhuser:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">昵称</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="xhUser.nikName" placeholder="昵称" readonly/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">性别</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="xhUser.gender" placeholder="性别" readonly/>
+                        </div>
+                    </div>
+											                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-2 control-label">用户类型：0、用户 1、销售</div>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="text" class="form-control" v-model="xhUser.userType" placeholder="用户类型：0、用户 1、销售" readonly/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+            <div class="form-group">
+                <div class="col-sm-2 control-label">用户类型</div>
+                <label class="radio-inline">
+                    <input type="radio" name="userType" value="0" v-model="xhUser.userType"/> 用户
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="userType" value="1" v-model="xhUser.userType"/> 销售
+                </label>
+            </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">销售名称</div>
+                        <div class="col-sm-10">
+                            <!--<input type="text" class="form-control" v-model="xhUser.sellName" placeholder="销售名称" />-->
+                            <input type="text" class="form-control" style="cursor:pointer;" v-model="xhUser.sellName" @click="sellTree" readonly="readonly" placeholder="请选择销售"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">门店名称</div>
+                        <div class="col-sm-10">
+                            <!--<input type="text" class="form-control" v-model="xhUser.shopId" placeholder="公司编号"/>-->
+                            <input type="text" class="form-control" style="cursor:pointer;" v-model="xhUser.shopName" @click="deptTree" readonly="readonly" placeholder="请选择门店"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">会员名称</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="xhUser.parentName" placeholder="会员名称" readonly/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">积分</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="xhUser.point" placeholder="积分"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">会员等级</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="xhUser.level" placeholder="会员等级"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">电话号码</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="xhUser.phone" placeholder=""/>
+                        </div>
+                    </div>
+							            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" id="btnSaveOrUpdate" data-loading-text="保存中..." @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- 选择部门 -->
+<div id="deptLayer" style="display: none;padding:10px;">
+    <ul id="deptTree" class="ztree"></ul>
+</div>
+<!-- 选择销售 -->
+<div id="sellLayer" style="display: none;padding:10px;">
+    <ul id="sellTree" class="ztree"></ul>
+</div>
+
+
+<script src="${request.contextPath}/statics/js/modules/sys/xhuser.js?_${.now?long}"></script>
+</body>
+</html>

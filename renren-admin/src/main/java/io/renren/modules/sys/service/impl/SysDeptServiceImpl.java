@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.annotation.DataFilter;
 import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.PointToDistance;
 import io.renren.common.utils.Query;
 import io.renren.modules.sys.dao.SysDeptDao;
 import io.renren.modules.sys.entity.SysDeptEntity;
@@ -77,10 +78,16 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
 
 	@Override
 	public PageUtils apiQueryPage(Map<String, Object> params) throws Exception {
+		double userLat = Double.parseDouble(params.get("userLat").toString());
+		double userLng = Double.parseDouble(params.get("userLng").toString());
 		IPage<SysDeptEntity> page = this.deptDao.findApiPage(
 				new Query<SysDeptEntity>().getPage(params),
 				new QueryWrapper<SysDeptEntity>()
 		);
+		for (SysDeptEntity sysDeptEntity:page.getRecords()){
+			double distance = PointToDistance.getDistanceFromTwoPoints(userLat,userLng,Double.parseDouble(sysDeptEntity.getLatitude()),Double.parseDouble(sysDeptEntity.getLongitude()));
+			sysDeptEntity.setDistance(distance);
+		}
 		return new PageUtils(page);
 	}
 

@@ -12,6 +12,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -25,51 +27,72 @@ import java.util.List;
  */
 @Data
 @TableName("sys_dept")
+@ApiModel(value = "商户实体")
 public class SysDeptEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 部门ID
 	 */
+	@ApiModelProperty(value = "部门ID")
 	@TableId
 	private Long deptId;
 	/**
 	 * 上级部门ID，一级部门为0
 	 */
+	@ApiModelProperty(value = "上级部门ID")
 	private Long parentId;
 	/**
 	 * 部门名称
 	 */
+	@ApiModelProperty(value = "部门名称")
 	private String name;
 	/**
 	 * 经度
 	 */
+	@ApiModelProperty(value = "经度")
 	private String longitude;
 	/**
 	 * 纬度
 	 */
+	@ApiModelProperty(value = "纬度")
 	private String latitude;
 	/**
 	 * 门店积分
 	 */
+	@ApiModelProperty(value = "门店积分")
 	private int shopPoint;
 	/**
 	 * 门店地址
 	 */
+	@ApiModelProperty(value = "门店地址")
 	private String address;
 	/**
 	 * 门店图片
 	 */
+	@ApiModelProperty(value = "门店图片")
 	private String shopPic;
 	/**
 	 * 门店电话
 	 */
+	@ApiModelProperty(value = "门店电话")
 	private String telephone;
 	/**
 	 * 上级部门名称
 	 */
+	@ApiModelProperty(value = "上级部门名称")
 	@TableField(exist=false)
 	private String parentName;
+	/**
+	 * 距离
+	 */
+	@ApiModelProperty(value = "上级部门名称")
+	@TableField(exist=false)
+	private double distance;
+	/**
+	 * 排序
+	 */
+	@ApiModelProperty(value = "排序")
 	private Integer orderNum;
 	@TableLogic
 	private Integer delFlag;
@@ -191,5 +214,13 @@ public class SysDeptEntity implements Serializable {
 
 	public void setShopPic(String shopPic) {
 		this.shopPic = shopPic;
+	}
+
+	public Double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Double distance) {
+		this.distance = distance;
 	}
 }

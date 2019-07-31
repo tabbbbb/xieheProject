@@ -39,5 +39,5 @@ public interface SysDeptService extends IService<SysDeptEntity> {
 	 */
 	List<Long> getSubDeptIdList(Long deptId);
 
-	PageUtils apiQueryPage(Map<String, Object> params)throws Exception;;
+	PageUtils apiQueryPage(Map<String, Object> params)throws Exception;
 }

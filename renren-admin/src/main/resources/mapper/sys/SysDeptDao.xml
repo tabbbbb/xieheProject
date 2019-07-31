@@ -17,7 +17,7 @@
 
 	<!-- 根据key，查询value -->
 	<select id="findApiPage" resultType="io.renren.modules.sys.entity.SysDeptEntity">
-		select * from sys_dept where  parent_id = 0;
+		select * from sys_dept where  parent_id = 0
 	</select>
 
 	<select id="queryParentList" resultType="io.renren.modules.sys.entity.SysDeptEntity">
