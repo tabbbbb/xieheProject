@@ -17,6 +17,6 @@ import java.util.Map;
 public interface XhOrderService extends IService<XhOrderEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
-    Object unifiedOrder(String outTradeNo, BigDecimal money, String openid) throws Exception;
+    Object unifiedOrder(String outTradeNo, BigDecimal money, String openid,XhOrderEntity xhOrderEntity) throws Exception;
 }
 

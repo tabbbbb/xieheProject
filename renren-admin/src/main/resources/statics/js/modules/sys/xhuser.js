@@ -192,7 +192,7 @@ var vm = new Vue({
                     var node = ztree.getSelectedNodes();
                     //选择上级部门
                     vm.xhUser.shopId = node[0].deptId;
-                    vm.xhUser.sellName = node[0].name;
+                    vm.xhUser.shopName = node[0].name;
                     layer.close(index);
                 }
             });
@@ -212,7 +212,7 @@ var vm = new Vue({
                     var node = ztreeDict.getSelectedNodes();
                     //选择上级部门
                     vm.xhUser.sellId = node[0].id;
-                    vm.xhUser.dictName = node[0].name;
+                    vm.xhUser.sellName = node[0].nikName;
                     layer.close(index);
                 }
             });

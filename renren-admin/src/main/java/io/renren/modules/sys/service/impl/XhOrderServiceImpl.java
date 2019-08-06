@@ -6,9 +6,11 @@ import io.renren.common.sdk.PaymentKit;
 import io.renren.common.sdk.WXPayUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -24,6 +26,8 @@ import io.renren.modules.sys.service.XhOrderService;
 
 @Service("xhOrderService")
 public class XhOrderServiceImpl extends ServiceImpl<XhOrderDao, XhOrderEntity> implements XhOrderService {
+    @Autowired
+    private XhOrderService xhOrderService;
     protected Logger logger = LoggerFactory.getLogger(getClass());
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -35,7 +39,7 @@ public class XhOrderServiceImpl extends ServiceImpl<XhOrderDao, XhOrderEntity> i
         return new PageUtils(page);
     }
     @Override
-    public Object unifiedOrder(String outTradeNo, BigDecimal money, String openid) throws Exception {
+    public Object unifiedOrder(String outTradeNo, BigDecimal money, String openid,XhOrderEntity xhOrderEntity) throws Exception {
         Map<String, String> reqParams = new HashMap<>();
         //微信分配的小程序ID
         reqParams.put("appid", WxConfig.APPID);
@@ -71,7 +75,8 @@ public class XhOrderServiceImpl extends ServiceImpl<XhOrderDao, XhOrderEntity> i
         Map<String, String> result = PaymentKit.xmlToMap(xmlResult);
         //预付单信息
         String prepay_id = result.get("prepay_id");
-
+        xhOrderEntity.setOrderTime(new Date());
+        xhOrderService.save(xhOrderEntity);
         /*
             小程序调起支付数据签名
          */
