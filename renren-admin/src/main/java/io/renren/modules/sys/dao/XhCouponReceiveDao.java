@@ -20,7 +20,7 @@ import java.util.List;
 @Mapper
 public interface XhCouponReceiveDao extends BaseMapper<XhCouponReceiveEntity> {
 
-    List<XhCouponReceiveEntity> queryCoupon(long couponId);
+    List<XhCouponReceiveEntity> queryCoupon(long couponId,long buyerId);
 
     IPage<XhCouponReceiveEntity> findByPage(IPage<XhCouponReceiveEntity> page, @Param("ew") QueryWrapper<XhCouponReceiveEntity> xhCouponReceiveEntityQueryWrapper);
 }

@@ -16,7 +16,7 @@
     </resultMap>
 
     <select id="queryCoupon" resultType="io.renren.modules.sys.entity.XhCouponReceiveEntity">
-		select * from xh_coupon_receive where coupon_id = #{value}
+		select * from xh_coupon_receive where coupon_id = #{couponId} and buyer_id=#{buyerId}
 	</select>
     <!-- 根据key，查询value -->
     <select id="findByPage" resultType="io.renren.modules.sys.entity.XhCouponReceiveEntity">

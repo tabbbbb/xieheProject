@@ -35,7 +35,8 @@ public class XhCouponReceiveServiceImpl extends ServiceImpl<XhCouponReceiveDao, 
     @Override
     public boolean checkCoupon(XhCouponReceiveEntity xhCouponReceive){
         long CouponId = xhCouponReceive.getCouponId();
-        List<XhCouponReceiveEntity> xhCouponReceiveCheck = baseMapper.queryCoupon(CouponId);
+        long buyerId = xhCouponReceive.getBuyerId();
+        List<XhCouponReceiveEntity> xhCouponReceiveCheck = baseMapper.queryCoupon(CouponId,buyerId);
         return xhCouponReceiveCheck.size()==0;
     }
 
