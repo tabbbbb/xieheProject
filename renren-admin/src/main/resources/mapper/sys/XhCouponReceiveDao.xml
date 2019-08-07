@@ -20,7 +20,7 @@
 	</select>
     <!-- 根据key，查询value -->
     <select id="findByPage" resultType="io.renren.modules.sys.entity.XhCouponReceiveEntity">
-		select a.*,b.nik_name as buyer_name,c.nik_name as share_name from xh_coupon_receive as a LEFT JOIN xh_user as b on a.buyer_id=b.id LEFT JOIN xh_user as c on a.share_id=b.id  ${ew.customSqlSegment}
+		select a.*,b.nik_name as buyer_name,c.nik_name as share_name,d.name,d.start_time,d.end_time,d.img from xh_coupon_receive as a LEFT JOIN xh_user as b on a.buyer_id=b.id LEFT JOIN xh_user as c on a.share_id=b.id left join xh_coupon as d on a.coupon_id = d.id ${ew.customSqlSegment}
 	</select>
 
 </mapper>

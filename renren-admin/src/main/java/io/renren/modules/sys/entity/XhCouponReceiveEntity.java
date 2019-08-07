@@ -67,6 +67,29 @@ public class XhCouponReceiveEntity implements Serializable {
 	@TableField(exist=false)
 	private String shareName;
 
+	/**
+	 * 优惠券名称
+	 */
+	@TableField(exist=false)
+	private String name;
+	/**
+	 * 优惠券开始时间
+	 */
+	@TableField(exist=false)
+	private Date startTime;
+	/**
+	 * 优惠券结束时间
+	 */
+	@TableField(exist=false)
+	private Date endTime;
+
+	/**
+	 * 优惠券结束时间
+	 */
+	@TableField(exist=false)
+	private String img;
+
+
 	public Long getId() {
 		return id;
 	}
@@ -145,5 +168,37 @@ public class XhCouponReceiveEntity implements Serializable {
 
 	public void setShareName(String shareName) {
 		this.shareName = shareName;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 }
