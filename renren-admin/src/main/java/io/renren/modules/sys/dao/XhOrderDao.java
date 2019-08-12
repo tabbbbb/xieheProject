@@ -13,5 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface XhOrderDao extends BaseMapper<XhOrderEntity> {
-	
+
+    XhOrderEntity findByOrderNo(String orderNo);
 }

@@ -18,5 +18,7 @@ public interface XhOrderService extends IService<XhOrderEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
     Object unifiedOrder(String outTradeNo, BigDecimal money, String openid,XhOrderEntity xhOrderEntity) throws Exception;
+
+    XhOrderEntity findByOrderNo(String orderNo);
 }
 

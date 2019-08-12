@@ -91,6 +91,11 @@ public class XhOrderServiceImpl extends ServiceImpl<XhOrderDao, XhOrderEntity> i
         return packageParams;
 
     }
+    @Override
+    public XhOrderEntity findByOrderNo(String orderNo){
+        XhOrderEntity xhOrderEntity = baseMapper.findByOrderNo(orderNo);
+        return xhOrderEntity;
+    }
 
 
 }

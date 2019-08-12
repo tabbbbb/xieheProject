@@ -17,7 +17,7 @@ public class WxConfig {
     /**
      * 回调地址
      */
-    public static String NOTIFY_URL = "";
+    public static String NOTIFY_URL = "https://xh.nblanh.com/wxProPayNotify/anon";
 
     public static String KEY = "33cbc407ecf54de38d41cc3660924911";
 }

@@ -14,5 +14,7 @@
         <result property="status" column="status"/>
     </resultMap>
 
-
+    <select id="findByOrderNo" resultType="io.renren.modules.sys.entity.XhOrderEntity">
+		select * from xh_order where order_id = #{value};
+	</select>
 </mapper>

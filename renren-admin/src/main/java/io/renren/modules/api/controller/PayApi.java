@@ -3,6 +3,9 @@ package io.renren.modules.api.controller;
 import io.renren.common.sdk.HttpKit;
 import io.renren.common.sdk.PaymentKit;
 import io.renren.modules.sys.controller.AbstractController;
+import io.renren.modules.sys.entity.XhOrderEntity;
+import io.renren.modules.sys.service.XhOrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +17,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("m/pay/")
 public class PayApi extends AbstractController {
+    @Autowired
+    private XhOrderService xhOrderService;
     /**
      * 成功的标识
      */
@@ -42,6 +47,13 @@ public class PayApi extends AbstractController {
             /**
              *  通过订单号 修改数据库中的记录，此处省略n行代码
              */
+            XhOrderEntity xhOrderEntity = xhOrderService.findByOrderNo(orderNo);
+            if(xhOrderEntity==null){
+                logger.info("订单号未找到",orderNo);
+            }else{
+                xhOrderEntity.setStatus(1);
+                xhOrderService.save(xhOrderEntity);
+            }
         }
         String result =  "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
         try {

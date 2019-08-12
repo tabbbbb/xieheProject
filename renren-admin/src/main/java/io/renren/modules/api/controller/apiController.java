@@ -293,10 +293,9 @@ public class apiController extends AbstractController {
             @ApiImplicitParam(name = "xhCouponReceive", value="订单对象" ,dataType="{userId（用户id）: \"1\"\n" +
                     "pId（支付类型）: \"1\"\n" +
                     "total_prices（总价）: \"100\"\n" +
-                    "status（订单状态）: \"2019-7-25\"\n" +
                     "goods_id（商品编号）: \"500\"\n" +
                     "pay_price（支付总价）: \"1\"\n" +
-                    "dept_id（支付总价）: \"1\"\n"
+                    "dept_id（店铺id）: \"1\"\n"
             )
     })
     @PostMapping
@@ -305,6 +304,7 @@ public class apiController extends AbstractController {
          微信小程序支付
          */
         int userId = xhOrderEntity.getUserId();
+        xhOrderEntity.setStatus(0);
         XhUserEntity updateUser = xhUserService.getById(userId);
         String openId = updateUser.getOpenId();
         /*
