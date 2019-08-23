@@ -76,7 +76,7 @@ public class ShiroConfig {
         shiroFilter.setUnauthorizedUrl("/");
 
         Map<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("/swagger/**", "authc");
+//        filterMap.put("/swagger/**", "authc");
         filterMap.put("/ceshi/**","anon");
         filterMap.put("/v2/api-docs", "anon");
         filterMap.put("/swagger-ui.html", "anon");
