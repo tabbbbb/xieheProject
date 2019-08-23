@@ -4,6 +4,9 @@ import io.renren.common.config.WxConfig;
 import io.renren.common.sdk.PaymentApi;
 import io.renren.common.sdk.PaymentKit;
 import io.renren.common.sdk.WXPayUtil;
+import io.renren.modules.sys.service.XhCouponReceiveService;
+import io.renren.modules.sys.service.XhUserService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +31,27 @@ import io.renren.modules.sys.service.XhOrderService;
 public class XhOrderServiceImpl extends ServiceImpl<XhOrderDao, XhOrderEntity> implements XhOrderService {
     @Autowired
     private XhOrderService xhOrderService;
+    @Autowired
+    private XhUserService xhUserService;
+    @Autowired
+    private XhCouponReceiveService xhCouponReceiveService;
     protected Logger logger = LoggerFactory.getLogger(getClass());
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<XhOrderEntity> page = this.page(
+        String userId = (String) params.get("userId");
+        String orderId = (String) params.get("orderId");
+        IPage<XhOrderEntity> page = baseMapper.findByPage(
                 new Query<XhOrderEntity>().getPage(params),
                 new QueryWrapper<XhOrderEntity>()
+                .like(StringUtils.isNotBlank(userId),"a.user_id", userId)
+                .like(StringUtils.isNotBlank(orderId),"a.order_id", orderId)
+                .like(StringUtils.isNotBlank("0"),"a.delete_mark","0")
         );
-
         return new PageUtils(page);
     }
     @Override
     public Object unifiedOrder(String outTradeNo, BigDecimal money, String openid,XhOrderEntity xhOrderEntity) throws Exception {
+
         Map<String, String> reqParams = new HashMap<>();
         //微信分配的小程序ID
         reqParams.put("appid", WxConfig.APPID);
@@ -75,8 +87,7 @@ public class XhOrderServiceImpl extends ServiceImpl<XhOrderDao, XhOrderEntity> i
         Map<String, String> result = PaymentKit.xmlToMap(xmlResult);
         //预付单信息
         String prepay_id = result.get("prepay_id");
-        xhOrderEntity.setOrderTime(new Date());
-        xhOrderService.save(xhOrderEntity);
+
         /*
             小程序调起支付数据签名
          */
@@ -88,8 +99,13 @@ public class XhOrderServiceImpl extends ServiceImpl<XhOrderDao, XhOrderEntity> i
         packageParams.put("signType", "MD5");
         String packageSign = WXPayUtil.generateSignature(packageParams, WxConfig.KEY);
         packageParams.put("paySign", packageSign);
-        return packageParams;
 
+        //补充新增数据
+        xhOrderEntity.setOrderTime(new Date());
+        xhOrderEntity.setOrderId(outTradeNo);
+        xhOrderEntity.setPoint(money.intValue());
+        xhOrderService.saveOrUpdate(xhOrderEntity);
+        return packageParams;
     }
     @Override
     public XhOrderEntity findByOrderNo(String orderNo){

@@ -22,4 +22,6 @@ public interface XhUserDao extends BaseMapper<XhUserEntity> {
     IPage<XhUserEntity> findByPage(IPage<XhUserEntity> page, @Param("ew") QueryWrapper<XhUserEntity> xhGoodsEntityQueryWrapper) throws Exception;
 
     List<XhUserEntity> querySellList(Map<String, Object> params);
+
+    XhUserEntity checkUser(String openId);
 }

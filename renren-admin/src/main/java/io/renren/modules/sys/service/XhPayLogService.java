@@ -2,21 +2,19 @@ package io.renren.modules.sys.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
-import io.renren.modules.sys.entity.XhCouponReceiveEntity;
+import io.renren.modules.sys.entity.XhPayLogEntity;
 
 import java.util.Map;
 
 /**
- * 优惠券领取记录表
+ * 
  *
  * @author Mark
  * @email sunlightcs@gmail.com
- * @date 2019-07-24 13:44:22
+ * @date 2019-08-14 09:51:12
  */
-public interface XhCouponReceiveService extends IService<XhCouponReceiveEntity> {
+public interface XhPayLogService extends IService<XhPayLogEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
-
-    XhCouponReceiveEntity checkCoupon(XhCouponReceiveEntity xhCouponReceive);
 }
 

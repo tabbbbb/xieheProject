@@ -3,7 +3,7 @@ $(function () {
         url: baseURL + 'sys/xhgoods/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			// { label: 'id', name: 'id', index: 'id', width: 50, key: true },
 			{ label: '商品名称', name: 'name', index: 'name', width: 80 },
 			{ label: '商品标题', name: 'title', index: 'title', width: 80 },
 			{ label: '商品介绍', name: 'detail', index: 'detail', width: 80,formatter: function(value, options, row){
@@ -32,7 +32,7 @@ $(function () {
 
         ],
 		viewrecords: true,
-        height: 385,
+        height: 780,
         rowNum: 10,
 		rowList : [10,30,50],
         rownumbers: true, 

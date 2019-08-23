@@ -25,5 +25,8 @@
     <select id="querySellList" resultType="io.renren.modules.sys.entity.XhUserEntity">
 		select * from xh_user where user_type=1
 	</select>
-
+    <!--查询用户是否存在 -->
+    <select id="checkUser" resultType="io.renren.modules.sys.entity.XhUserEntity">
+		select * from xh_user where open_id=#{value};
+	</select>
 </mapper>

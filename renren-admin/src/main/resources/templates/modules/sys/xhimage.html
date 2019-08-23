@@ -30,12 +30,21 @@
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">{{title}}</div>
         <form id="dataForm" class="form-horizontal">
-					 <div class="form-group">
-                        <div class="col-sm-2 control-label">图片类型</div>
-                        <div class="col-sm-10">
-                            <input type="text"  class="form-control" v-model="xhImage.imgType" placeholder="图片类型"/>
-                        </div>
-                    </div>
+					 <!--<div class="form-group">-->
+                        <!--<div class="col-sm-2 control-label">图片类型</div>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="text"  class="form-control" v-model="xhImage.imgType" placeholder="图片类型"/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+            <div class="form-group">
+                <div class="col-sm-2 control-label">图片类型</div>
+                <label class="radio-inline">
+                    <input type="radio" name="imgType" value="1" v-model="xhImage.imgType"/> 大轮播图
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="imgType" value="2" v-model="xhImage.imgType"/> 小轮播图
+                </label>
+            </div>
 					<div class="form-group">
                         <div class="col-sm-2 control-label">图片上传</div>
                         <div class="col-sm-10">

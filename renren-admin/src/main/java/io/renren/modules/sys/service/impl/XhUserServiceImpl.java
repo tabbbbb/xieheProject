@@ -36,15 +36,10 @@ public class XhUserServiceImpl extends ServiceImpl<XhUserDao, XhUserEntity> impl
         return new PageUtils(page);
     }
     @Override
-    public PageUtils checkUser(Map<String, Object> params) throws Exception{
+    public XhUserEntity checkUser(Map<String, Object> params) throws Exception{
         String openId = (String)params.get("openId");
-        IPage<XhUserEntity> page = xhUserDao.findByPage(
-                new Query<XhUserEntity>().getPage(params),
-                new QueryWrapper<XhUserEntity>()
-                        .like(StringUtils.isNotBlank(openId),"a.open_id", openId)
-
-        );
-        return new PageUtils(page);
+        XhUserEntity xhUserEntity  = xhUserDao.checkUser(openId);
+        return xhUserEntity;
     }
     @Override
     public List<XhUserEntity> querySellList(Map<String, Object> params){

@@ -1,8 +1,11 @@
 package io.renren.modules.sys.dao;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.renren.modules.sys.entity.XhOrderEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 
@@ -15,4 +18,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface XhOrderDao extends BaseMapper<XhOrderEntity> {
 
     XhOrderEntity findByOrderNo(String orderNo);
+
+    IPage<XhOrderEntity> findByPage(IPage<XhOrderEntity> page,@Param("ew") QueryWrapper<XhOrderEntity> xhOrderEntityQueryWrapper);
 }

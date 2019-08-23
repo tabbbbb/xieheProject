@@ -17,4 +17,8 @@
     <select id="findByOrderNo" resultType="io.renren.modules.sys.entity.XhOrderEntity">
 		select * from xh_order where order_id = #{value};
 	</select>
+    <!-- 根据key，查询value -->
+    <select id="findByPage" resultType="io.renren.modules.sys.entity.XhOrderEntity">
+     SELECT a.*,b.picture as picture,b.`name` as goods_name ,b.cover_pic as cover_pic ,(select c.name from sys_dept c where c.dept_id=a.dept_id) as dept_name,(select d.nik_name from xh_user as d where d.id = a.user_id) as user_name  from xh_order as a LEFT JOIN xh_goods as b on a.goods_id = b.id  ${ew.customSqlSegment} order by a.order_time
+	</select>
 </mapper>

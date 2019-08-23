@@ -3,8 +3,14 @@ $(function () {
         url: baseURL + 'sys/xhimage/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '图片类型', name: 'imgType', index: 'img_type', width: 80 },
+			// { label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			{ label: '图片类型', name: 'imgType', index: 'img_type', width: 80 , formatter: function(value, options, row){
+                    if(value===1){
+                        return "大轮播图";
+                    }else{
+                        return "小轮播图";
+                    }
+                }},
 			 // { label: '图片地址', name: 'imgUrl', index: 'img_url', width: 80 },
             { label: '图片地址', name: 'imgUrl', width: 60, formatter: function(value, options, row){
                     return   '<img src='+value+' style="height:100px;width=100px" />';

@@ -18,7 +18,7 @@ import java.util.Map;
 public interface XhUserService extends IService<XhUserEntity> {
 
     PageUtils queryPage(Map<String, Object> params) throws Exception;
-    PageUtils checkUser(Map<String, Object> params) throws Exception;
+    XhUserEntity checkUser(Map<String, Object> params) throws Exception;
 
     List<XhUserEntity> querySellList(Map<String, Object> map);
 }

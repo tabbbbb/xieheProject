@@ -1,5 +1,6 @@
 package io.renren.modules.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -70,6 +71,49 @@ public class XhOrderEntity implements Serializable {
 	 * 门店id
 	 */
 	private Integer deptId;
+	/**
+	 * 优惠券编号
+	 */
+	private long couponId;
+	/**
+	 * 优惠券优惠金额
+	 */
+	private BigDecimal couponPrice;
+	/**
+	 * 订单积分
+	 */
+	private Integer point;
+	/**
+	 * 商品数量
+	 */
+	private Integer goodsCount;
+	/**
+	 * 门店名称
+	 */
+	private Integer deleteMark;
+	@TableField(exist=false)
+	private String deptName;
+	/**
+	 * 大图
+	 */
+	@TableField(exist=false)
+	private String picture;
+	/**
+	 * 缩略图
+	 */
+	@TableField(exist=false)
+	private String coverPic;
+	/**
+	 * 商品名称
+	 */
+	@TableField(exist=false)
+	private String goodsName;
+	/**
+	 * 用户名称
+	 */
+	@TableField(exist=false)
+	private String userName;
+
 
 	public Integer getId() {
 		return id;
@@ -166,5 +210,86 @@ public class XhOrderEntity implements Serializable {
 
 	public void setDeptId(Integer deptId) {
 		this.deptId = deptId;
+	}
+
+
+	public long getCouponId() {
+		return couponId;
+	}
+
+	public void setCouponId(long couponId) {
+		this.couponId = couponId;
+	}
+
+	public BigDecimal getCouponPrice() {
+		return couponPrice;
+	}
+
+	public void setCouponPrice(BigDecimal couponPrice) {
+		this.couponPrice = couponPrice;
+	}
+
+	public Integer getPoint() {
+		return point;
+	}
+
+	public void setPoint(Integer point) {
+		this.point = point;
+	}
+
+	public Integer getGoodsCount() {
+		return goodsCount;
+	}
+
+	public void setGoodsCount(Integer goodsCount) {
+		this.goodsCount = goodsCount;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	public String getCoverPic() {
+		return coverPic;
+	}
+
+	public void setCoverPic(String coverPic) {
+		this.coverPic = coverPic;
+	}
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+
+	public Integer getDeleteMark() {
+		return deleteMark;
+	}
+
+	public void setDeleteMark(Integer deleteMark) {
+		this.deleteMark = deleteMark;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }

@@ -33,9 +33,11 @@ public class XhCouponReceiveServiceImpl extends ServiceImpl<XhCouponReceiveDao, 
         return new PageUtils(page);
     }
     @Override
-    public boolean checkCoupon(XhCouponReceiveEntity xhCouponReceive){
-        List<XhCouponReceiveEntity> xhCouponReceiveCheck = baseMapper.queryCoupon(xhCouponReceive);
-        return xhCouponReceiveCheck.size()==0;
+    public XhCouponReceiveEntity checkCoupon(XhCouponReceiveEntity xhCouponReceive){
+        XhCouponReceiveEntity xhCouponReceiveCheck = baseMapper.queryCoupon(xhCouponReceive);
+        return xhCouponReceiveCheck;
     }
+
+
 
 }

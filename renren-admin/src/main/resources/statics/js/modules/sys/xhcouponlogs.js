@@ -3,8 +3,8 @@ $(function () {
         url: baseURL + 'sys/xhcouponlogs/list',
         datatype: "json",
         colModel: [
-			{ label: '买家ID', name: 'buyerName', index: 'buyer_id', width: 80 },
-			{ label: '分享ID', name: 'shareName', index: 'share_id', width: 80 },
+			{ label: '买家名称', name: 'buyerName', index: 'buyer_name', width: 80 },
+			{ label: '分享名称', name: 'shareName', index: 'share_name', width: 80 },
 			{ label: '优惠券id', name: 'couponReceiveId', index: 'coupon_receive_id', width: 80 }, 			
 			{ label: '订单号', name: 'orderNumber', index: 'order_number', width: 80 }, 			
 			{ label: '原订单金额', name: 'orderOriginalAmount', index: 'order_original_amount', width: 80 }, 			

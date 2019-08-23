@@ -62,4 +62,84 @@ public class XhCouponLogsEntity implements Serializable {
 	 */
 	private Integer status;
 
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getBuyerId() {
+		return buyerId;
+	}
+
+	public void setBuyerId(Long buyerId) {
+		this.buyerId = buyerId;
+	}
+
+	public Long getShareId() {
+		return shareId;
+	}
+
+	public void setShareId(Long shareId) {
+		this.shareId = shareId;
+	}
+
+	public Long getCouponReceiveId() {
+		return couponReceiveId;
+	}
+
+	public void setCouponReceiveId(Long couponReceiveId) {
+		this.couponReceiveId = couponReceiveId;
+	}
+
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public BigDecimal getOrderOriginalAmount() {
+		return orderOriginalAmount;
+	}
+
+	public void setOrderOriginalAmount(BigDecimal orderOriginalAmount) {
+		this.orderOriginalAmount = orderOriginalAmount;
+	}
+
+	public BigDecimal getCouponAmount() {
+		return couponAmount;
+	}
+
+	public void setCouponAmount(BigDecimal couponAmount) {
+		this.couponAmount = couponAmount;
+	}
+
+	public BigDecimal getOrderFinalAmount() {
+		return orderFinalAmount;
+	}
+
+	public void setOrderFinalAmount(BigDecimal orderFinalAmount) {
+		this.orderFinalAmount = orderFinalAmount;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 }

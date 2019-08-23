@@ -3,18 +3,18 @@ $(function () {
         url: baseURL + 'sys/xhcouponreceive/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '买家ID', name: 'buyerName', index: 'buyer_id', width: 80 },
-            { label: '分享者ID', name: 'shareName', index: 'share_id', width: 80 },
+			// { label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			{ label: '买家名称', name: 'buyerName', index: 'buyer_name', width: 80 },
+            { label: '分享者名称', name: 'shareName', index: 'share_name', width: 80 },
             { label: '优惠券编号', name: 'couponId', index: 'coupon_id', width: 80 },
 			{ label: '券额', name: 'couponMoney', index: 'coupon_money', width: 80 }, 			
 			{ label: '领取时间', name: 'createTime', index: 'create_time', width: 80 }, 			
 			{ label: '金额满', name: 'fullMoney', index: 'full_money', width: 80 },
 			{ label: '状态', name: 'status', index: 'status', width: 80, formatter: function(value, options, row){
                     if(value===0){
-                        return '<span class="label label-success">已使用</span>';
-                    }else if(value===1){
                         return '<span class="label label-success">未使用</span>';
+                    }else if(value===1){
+                        return '<span class="label label-danger">已使用</span>';
                     }else{
                         return '<span class="label label-danger">已过期</span>';
                     }

@@ -3,7 +3,14 @@ $(function () {
         url: baseURL + 'sys/xhcoupon/list',
         datatype: "json",
         colModel: [
-			{ label: '所属类型', name: 'type', index: 'type', width: 80 },
+			{ label: '所属类型', name: 'type', index: 'type', width: 80 ,formatter: function(value, options, row){
+			    if(value==1){
+                    return   "满减";
+                }else{
+			        return "其他";
+                }
+
+                }},
 			{ label: '优惠券名称', name: 'name', index: 'name', width: 80 }, 			
 			{ label: '图片', name: 'img', index: 'img', width: 80 ,formatter: function(value, options, row){
                     return   '<img src='+value+' style="height:100px;width=100px" />';

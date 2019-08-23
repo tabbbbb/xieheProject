@@ -3,7 +3,7 @@ $(function () {
         url: baseURL + 'sys/xhuser/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			// { label: 'id', name: 'id', index: 'id', width: 50, key: true },
 			{ label: '昵称', name: 'nikName', index: 'nik_name', width: 80 }, 			
 			{ label: '性别', name: 'gender', index: 'gender', width: 80 }, 			
 			{ label: '用户类型', name: 'userType',width: 80, formatter: function(value, options, row){
